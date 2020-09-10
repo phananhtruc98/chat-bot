@@ -6,16 +6,20 @@ $request_params = [
     'chat_id' => $user_id,
     'text' => 'Bạn là ai dị?'
 ];
-/* $request_url = 'https://api.telegram.org/bot' . $token;
+$request_params_getchat = [
+    'chat_id' => $user_id,
+    'text' => 'Bạn là ai dị?'
+];
+$request_url = 'https://api.telegram.org/bot' . $token;
 header('Content-Type: application/json');
 
 $getUpdates = $request_url . '/getUpdates';
-echo json_encode(json_decode(file_get_contents($request_url)), JSON_PRETTY_PRINT);
+echo json_encode(json_decode(file_get_contents($getUpdates)), JSON_PRETTY_PRINT);
 
-$getChat = $request_url . '/getChat?' . http_build_query($request_params);
+$getChat = $request_url . '/getChat?' . http_build_query($request_params_getchat);
 
 echo json_encode(json_decode(file_get_contents($getChat)), JSON_PRETTY_PRINT);
- */
+
 //$newMessage = 
 
 ?> 
