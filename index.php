@@ -1,7 +1,11 @@
 <?php
 //$user_id = "1254653879";
 $update = json_decode(file_get_contents('php://input'), TRUE);
-$botToken = "1263823155:AAF7VbdQ9jg04P-sIEKiyVnZ0Bd2QEqVGm4";
+$test = isset($update['callback_query']);
+debug_to_console($update);
+debug_to_console($test);
+
+/* $botToken = "1263823155:AAF7VbdQ9jg04P-sIEKiyVnZ0Bd2QEqVGm4";
     $botAPI = "https://api.telegram.org/bot" . $botToken;
 
     // Check if callback is set
@@ -12,14 +16,12 @@ $botToken = "1263823155:AAF7VbdQ9jg04P-sIEKiyVnZ0Bd2QEqVGm4";
             'text' => $msg = $update['message']['text'],
             'chat_id' => $update['callback_query']['from']['id']
         ]);
-        debug_to_console($data);
+        
         file_get_contents($botAPI . "/sendMessage?{$data}");
-    }
+    } */
     function debug_to_console($data) {
         $output = $data;
-        if (is_array($output))
-            $output = implode(',', $output);
-    
+        
         echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
     }
 /* 
