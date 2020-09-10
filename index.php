@@ -1,11 +1,11 @@
 <?php
 //$user_id = "1254653879";
-$_POST = json_decode(file_get_contents('php://input'), true);
-$update = json_decode(file_get_contents('php://input'), true);
+$_POST = file_get_contents('php://input');;
+$update = $data = file_get_contents('php://input');
 echo isset($update['callback_query']);
 
 echo $_POST;
-echo json_decode(file_get_contents('php://input'), true);
+echo $data = file_get_contents('php://input');
 /* function isValidJSON($str)
 {
     json_decode($str);
