@@ -7,8 +7,8 @@ $request_params = [
     'text' => 'Bạn là ai dị?'
 ];
 //$request_url = 'https://api.telegram.org/bot' . $token . '/sendMessage?' . http_build_query($request_params);
-$request_url = 'https://api.telegram.org/bot' . $token . '/getUpdates?';
-$result = json_encode(json_decode(file_get_contents($request_url)), JSON_PRETTY_PRINT);
+$request_url = 'https://api.telegram.org/bot' . $token . '/getUpdates';
+$result = file_get_contents($request_url);
 debug_to_console($result);
 
 function debug_to_console($data) {
