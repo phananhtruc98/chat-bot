@@ -1,27 +1,46 @@
 <?php
-$token = "1263823155:AAF7VbdQ9jg04P-sIEKiyVnZ0Bd2QEqVGm4";
 //$user_id = "1254653879";
+$update = json_decode(file_get_contents('php://input'), TRUE);
+$botToken = "1263823155:AAF7VbdQ9jg04P-sIEKiyVnZ0Bd2QEqVGm4";
+    $botAPI = "https://api.telegram.org/bot" . $botToken;
 
+    // Check if callback is set
+    if (isset($update['callback_query'])) {
 
-$content = file_get_contents('php://input');
-console.log('content',$content);
-$update = json_decode($content, true);
-console.log('update',$update);
-/* if(!$update){
-    exit;
-}
-$message = isset($update['message']) ? $update['message'] : null;
-$chatId = isset($message['chat']['id']) ? $message['chat']['id'] : null;
-$request_params = [
-    'chat_id' => $chatId,
-    'text' => $message
-]; */
-console.log('message',$message);
-console.log('chatId',$chatId);
-/* \header('Content-Type: application/json');
+        // Reply with callback_query data
+        $data = http_build_query([
+            'text' => 'Selected language: ' . $update['callback_query']['data'],
+            'chat_id' => $update['callback_query']['from']['id']
+        ]);
+        file_get_contents($botAPI . "/sendMessage?{$data}");
+    }
 
-$request_url = 'https://api.telegram.org/bot' . $token . '/sendMessage?' . http_build_query($request_params);
+    // Check for normal command
+    $msg = $update['message']['text'];
+    if ($msg === "/new_word") {
 
-file_get_contents($request_url) */
+        // Create keyboard
+        $data = http_build_query([
+            'text' => 'Please select language;',
+            'chat_id' => $update['message']['from']['id']
+        ]);
+        $keyboard = json_encode([
+            "inline_keyboard" => [
+                [
+                    [
+                        "text" => "english",
+                        "callback_data" => "english"
+                    ],
+                    [
+                        "text" => "russian",
+                        "callback_data" => "russian"
+                    ]
+                ]
+            ]
+        ]);
+
+        // Send keyboard
+        file_get_contents($botAPI . "/sendMessage?{$data}&reply_markup={$keyboard}");
+
 
 ?>
