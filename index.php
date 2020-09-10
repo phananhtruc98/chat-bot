@@ -6,7 +6,16 @@ $request_params = [
     'chat_id' => $user_id,
     'text' => 'Bạn là ai dị?'
 ];
-$request_url = 'https://api.telegram.org/bot' . $token . '/sendMessage?' . http_build_query($request_params);
+//$request_url = 'https://api.telegram.org/bot' . $token . '/sendMessage?' . http_build_query($request_params);
+$request_url = 'https://api.telegram.org/bot' . $token . '/getUpdates?';
+$result = json_encode(json_decode(file_get_contents($request_url)), JSON_PRETTY_PRINT);
+debug_to_console($result);
 
-file_get_contents($request_url)
+function debug_to_console($data) {
+    $output = $data;
+    if (is_array($output))
+        $output = implode(',', $output);
+
+    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+}
 ?>
