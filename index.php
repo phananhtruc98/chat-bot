@@ -1,12 +1,12 @@
 <?php
 //$user_id = "1254653879";
 $_POST = json_decode(file_get_contents('php://input'), true);
-$test = isset($update['callback_query']);
-debug_to_console($_POST);
-debug_to_console($test);
+$update = json_decode(file_get_contents('php://input'), true);
+echo isset($update['callback_query']);
 
-
-function isValidJSON($str)
+echo $_POST;
+echo json_decode(file_get_contents('php://input'), true);
+/* function isValidJSON($str)
 {
     json_decode($str);
     return json_last_error() == JSON_ERROR_NONE;
@@ -16,7 +16,7 @@ $json_params = file_get_contents("php://input");
 
 if (strlen($json_params) > 0 && isValidJSON($json_params))
     $decoded_params = json_decode($json_params);
-    debug_to_console($decoded_params);
+    debug_to_console($decoded_params); */
 
 
 /* $botToken = "1263823155:AAF7VbdQ9jg04P-sIEKiyVnZ0Bd2QEqVGm4";
