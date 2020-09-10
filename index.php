@@ -1,9 +1,23 @@
 <?php
 //$user_id = "1254653879";
-$update = json_decode(file_get_contents('php://input'), TRUE);
+$_POST = json_decode(file_get_contents('php://input'), true);
 $test = isset($update['callback_query']);
-debug_to_console($update);
+debug_to_console($_POST);
 debug_to_console($test);
+
+
+function isValidJSON($str)
+{
+    json_decode($str);
+    return json_last_error() == JSON_ERROR_NONE;
+}
+
+$json_params = file_get_contents("php://input");
+
+if (strlen($json_params) > 0 && isValidJSON($json_params))
+    $decoded_params = json_decode($json_params);
+    debug_to_console($decoded_params);
+
 
 /* $botToken = "1263823155:AAF7VbdQ9jg04P-sIEKiyVnZ0Bd2QEqVGm4";
     $botAPI = "https://api.telegram.org/bot" . $botToken;
@@ -19,11 +33,12 @@ debug_to_console($test);
         
         file_get_contents($botAPI . "/sendMessage?{$data}");
     } */
-    function debug_to_console($data) {
-        $output = $data;
-        
-        echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
-    }
+function debug_to_console($data)
+{
+    $output = $data;
+
+    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+}
 /* 
     // Check for normal command
     $msg = $update['message']['text'];
@@ -51,4 +66,3 @@ debug_to_console($test);
 
         // Send keyboard
         file_get_contents($botAPI . "/sendMessage?{$data}&reply_markup={$keyboard}"); */
-?>
