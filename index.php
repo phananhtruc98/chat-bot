@@ -1,12 +1,21 @@
 <?php
-$token = "1263823155:AAF7VbdQ9jg04P-sIEKiyVnZ0Bd2QEqVGm4";
-$user_id = "1254653879";
+ $token = "1263823155:AAF7VbdQ9jg04P-sIEKiyVnZ0Bd2QEqVGm4";
+$user_id = "-409220601";
 
 $request_params = [
     'chat_id' => $user_id,
     'text' => 'Bạn là ai dị?'
 ];
-$request_url = 'https://api.telegram.org/bot' . $token . '/sendMessage?' . http_build_query($request_params);
+/* $request_url = 'https://api.telegram.org/bot' . $token;
+header('Content-Type: application/json');
 
-file_get_contents($request_url)
-?>
+$getUpdates = $request_url . '/getUpdates';
+echo json_encode(json_decode(file_get_contents($request_url)), JSON_PRETTY_PRINT);
+
+$getChat = $request_url . '/getChat?' . http_build_query($request_params);
+
+echo json_encode(json_decode(file_get_contents($getChat)), JSON_PRETTY_PRINT);
+ */
+//$newMessage = 
+
+?> 
