@@ -1,11 +1,18 @@
 <?php
-//$user_id = "1254653879";
-$_POST = file_get_contents('php://input');;
-$update = file_get_contents('php://input');
-echo isset($update['callback_query']);
+$token = "1263823155:AAF7VbdQ9jg04P-sIEKiyVnZ0Bd2QEqVGm4";
 
-echo $_POST;
-echo $update;
+$_POST = file_get_contents('php://input');
+$api = 'https://api.telegram.org/bot' . $token;
+
+
+$content = file_get_contents("php://input");
+$update = json_decode($content, true);
+
+$callback_query = $update['callback_query'];
+$message_id = ['callback_query']['message']['message_id']; //callbackquery message id
+$chat_id = $callback_query['message']['chat']['id']; // callbackquery chat id 
+$message_text = ['callback_query']['message']['text'];
+debug_to_console($message_text);
 /* function isValidJSON($str)
 {
     json_decode($str);
