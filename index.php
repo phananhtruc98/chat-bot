@@ -17,9 +17,9 @@ $getUpdates = $request_url . '/getUpdates';
 echo json_encode(json_decode(file_get_contents($getUpdates)), JSON_PRETTY_PRINT);
 
 $getChat = $request_url . '/getChat?' . http_build_query($request_params_getchat);
-
+console.log('hello from Hien laptop')
 echo json_encode(json_decode(file_get_contents($getChat)), JSON_PRETTY_PRINT);
 
-//$newMessage = 
+//$newMessage =
 
-?> 
+?>
