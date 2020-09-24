@@ -1,16 +1,18 @@
 <?php
-require __DIR__.'/vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
+
 use Kreait\Firebase\Factory;
+
 header('Content-Type: application/json');
 $factory = (new Factory())
     ->withDatabaseUri('https://php-chat-bot-ed16a.firebaseio.com/');
 $database = $factory->createDatabase();
 $reference = $database->getReference('words')->getValue();
 $json_encode = json_encode($reference, JSON_PRETTY_PRINT);
-$array = json_decode($json_encode,true);
+$array = json_decode($json_encode, true);
 $first_value = reset($array);
 //echo $first_value;
-$rand_key = array_rand($array,1);
+$rand_key = array_rand($array, 1);
 
 $rand_word = $array[$rand_key];
 //---------------------------------------------------------------
@@ -34,24 +36,15 @@ if ($content != null) {
     }
 
     // Check for normal command
-    if ($message_text === "/new_word") {
-        // _________________________________________________________
-
+    if ($message_text === "/random_word") {
         $data = http_build_query([
             'text' => "Please choose your action: ",
             'chat_id' => $update['message']['chat']['id']
         ]);
-        $keyboard = json_encode([
-            "inline_keyboard" => [
-                [
-                    [
-                        "text" => "Remind random word",
-                        "callback_data" => $rand_word['name'] . ": ". $rand_word['meaning']
-                    ]
-                ]
-            ]
-        ]);
 
+        $keyboard = array(
+            "inline_keyboard" => array(array(array("text" => "Remind random word", "callback_data" => $rand_word['name'] . ': ' . $rand_word['meaning'])))
+        );
         // Send keyboard
         file_get_contents($api . "/sendMessage?{$data}&reply_markup={$keyboard}");
     }
