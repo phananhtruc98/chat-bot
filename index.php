@@ -1,23 +1,25 @@
 <?php
+require __DIR__.'/vendor/autoload.php';
+use Kreait\Firebase\Factory;
+header('Content-Type: application/json');
+$factory = (new Factory())
+    ->withDatabaseUri('https://php-chat-bot-ed16a.firebaseio.com/');
+$database = $factory->createDatabase();
+$reference = $database->getReference('words')->getValue();
+$json_encode = json_encode($reference, JSON_PRETTY_PRINT);
+$array = json_decode($json_encode,true);
+$first_value = reset($array);
+//echo $first_value;
+$rand_key = array_rand($array,1);
+
+$rand_word = $array[$rand_key];
+//---------------------------------------------------------------
 $token = "1263823155:AAF7VbdQ9jg04P-sIEKiyVnZ0Bd2QEqVGm4";
 $user_id = "1254653879";
 $api = 'https://api.telegram.org/bot' . $token;
-
-// $update = json_decode(file_get_contents('php://input'), true);
-
-// $a = $update['message']['text'];
-
-// $request_params = [
-//     'chat_id' => $user_id,
-//     'text' => 'hellos'
-// ];
-// $request_url = 'https://api.telegram.org/bot/' . $token . '/sendMessage?' . http_build_query($request_params);
-
-// file_get_contents($request_url);
-// ________________________________________________________________
 $content = file_get_contents("php://input");
 if ($content != null) {
-    $update = json_decode($content, true); //callbackquery message id    
+    $update = json_decode($content, true); //callbackquery message id
     if (isset($update['callback_query'])) {
         // Reply with callback_query data
         $data = http_build_query([
@@ -34,51 +36,17 @@ if ($content != null) {
     // Check for normal command
     if ($message_text === "/new_word") {
         // _________________________________________________________
-        $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://wordsapiv1.p.rapidapi.com/words/hatchback/typeOf",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                "x-rapidapi-host: wordsapiv1.p.rapidapi.com",
-                "x-rapidapi-key: fb49d69a48msh5dba7087e7e5342p16f480jsneefa8caf686b"
-            ),
-        ));
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-
-        if ($err) {
-            // echo "cURL Error #:" . $err;
-            return;
-        }
-        //  else {
-        //     echo $response;
-        // }
-        // _________________________________________________________
-        // Create keyboard
         $data = http_build_query([
-            'text' => $response,
+            'text' => "Please choose your action: ",
             'chat_id' => $update['message']['chat']['id']
         ]);
         $keyboard = json_encode([
             "inline_keyboard" => [
                 [
                     [
-                        "text" => "Add New Word",
-                        "callback_data" => "Ok friend"
-                    ],
-                    [
                         "text" => "Remind random word",
-                        "callback_data" => "Good job my friend"
+                        "callback_data" => $rand_word['name'] . ": ". $rand_word['meaning']
                     ]
                 ]
             ]
@@ -86,16 +54,8 @@ if ($content != null) {
 
         // Send keyboard
         file_get_contents($api . "/sendMessage?{$data}&reply_markup={$keyboard}");
-
-
-        // $request_params = [
-        //     'chat_id' => $chat_id,
-        //     'text' => $message_text
-        // ];
-
-        // $request_url = 'https://api.telegram.org/bot' . $token . '/sendMessage?' . http_build_query($request_params);
-        // file_get_contents($request_url);
-
     }
 }
-echo 'a';
+
+
+?>

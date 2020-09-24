@@ -1,0 +1,16 @@
+{
+    "name": "carptech/chatbot",
+    "description": "php-chat-bot",
+    "type": "project",
+    "license": "GNU3",
+    "authors": [
+        {
+            "name": "Truc Phan",
+            "email": "anhtrucphanit@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "kreait/firebase-php": "5.0"
+    }
+}
