@@ -24,20 +24,49 @@ if ($content != null) {
             'text' => $msg = $update['callback_query']['data'],
             'chat_id' => $update['callback_query']['message']['chat']['id']
         ]);
-        
+
         file_get_contents($api . "/sendMessage?{$data}");
-    } 
-    else{
+    } else {
         $chat_id = $update['message']['chat']['id']; // callbackquery chat id
         $message_text = $update['message']['text'];
     }
-    
+
     // Check for normal command
     if ($message_text === "/new_word") {
+        // _________________________________________________________
+        $curl = curl_init();
 
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://wordsapiv1.p.rapidapi.com/words/hatchback/typeOf",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "x-rapidapi-host: wordsapiv1.p.rapidapi.com",
+                "x-rapidapi-key: fb49d69a48msh5dba7087e7e5342p16f480jsneefa8caf686b"
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            // echo "cURL Error #:" . $err;
+            return;
+        }
+        //  else {
+        //     echo $response;
+        // }
+        // _________________________________________________________
         // Create keyboard
         $data = http_build_query([
-            'text' => 'Please choose your action:',
+            'text' => $response,
             'chat_id' => $update['message']['chat']['id']
         ]);
         $keyboard = json_encode([
@@ -66,6 +95,7 @@ if ($content != null) {
 
         // $request_url = 'https://api.telegram.org/bot' . $token . '/sendMessage?' . http_build_query($request_params);
         // file_get_contents($request_url);
+
     }
 }
 echo 'a';
